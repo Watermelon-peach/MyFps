@@ -14,6 +14,9 @@ namespace MyFps
         public GameObject ActionUI;
         public TextMeshProUGUI actionText;
 
+        //크로스헤어
+        public GameObject extraCross;
+
         [SerializeField]
         private string action = "Open The Door";
 
@@ -53,11 +56,15 @@ namespace MyFps
                 HideActionUI();
                 animator.SetBool(paramIsOpen, false);
             }
+
+            extraCross.SetActive(true);
         }
 
         private void OnMouseExit()
         {
             HideActionUI();
+
+            extraCross.SetActive(false);
         }
         #endregion
 
@@ -66,6 +73,8 @@ namespace MyFps
         {
             ActionUI.SetActive(true);
             actionText.text = action;
+
+            
         }
 
         //Action UI 숨기기
@@ -73,6 +82,7 @@ namespace MyFps
         {
             ActionUI.SetActive(false);
             actionText.text = "";
+
         }
         #endregion
     }
