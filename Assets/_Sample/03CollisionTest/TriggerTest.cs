@@ -1,44 +1,38 @@
 using UnityEngine;
 
-public class TriggerTest : MonoBehaviour
+namespace MySample
 {
-    #region
-    private Color startMaterialColor;
-    [SerializeField] private float force = 0f;
-    #endregion
-
-    #region Unity Event Method
-    private void OnTriggerEnter(Collider other)
+    public class TriggerTest : MonoBehaviour
     {
-        if (other != null)
+        #region Unity Event Method
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"OnTriggerEnter : {other.transform.tag.ToString()}");
-            //Material 바꾸기
-            startMaterialColor = other.transform.GetComponent<Renderer>().material.color;
-            other.transform.GetComponent<Renderer>().material.color = Color.red;
-
-            Rigidbody rb = other.transform.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.right * force, ForceMode.Impulse);
+            Debug.Log($"OnTriggerEnter : {other.tag}");
+            //플레이어를 오른쪽으로 3만큼 힘을 준다, 빨간색으로 바꾼다
+            MoveObejct player = other.GetComponent<MoveObejct>();
+            if (player)
+            {
+                player.MoveRight();
+                player.ChangeColorRed();
+            }
         }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other != null)
+        private void OnTriggerStay(Collider other)
         {
-            Debug.Log($"OnTriggerStay : {other.transform.tag.ToString()}");
+            Debug.Log($"OnTriggerStay : {other.tag}");
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other != null)
+        private void OnTriggerExit(Collider other)
         {
-            Debug.Log($"OnTriggerExit : {other.transform.tag.ToString()}");
-            other.transform.GetComponent<Renderer>().material.color = startMaterialColor;
-            Rigidbody rb = other.transform.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.right * force, ForceMode.Impulse);
+            Debug.Log($"OnTriggerExit : {other.tag}");
+            //플레이어를 오른쪽으로 3만큼 힘을 준다, 오리지널 컬러로 바꾼다
+            MoveObejct player = other.GetComponent<MoveObejct>();
+            if (player)
+            {
+                player.MoveRight();
+                player.ChangeColorOrigin();
+            }
         }
+        #endregion
     }
-    #endregion
 }
