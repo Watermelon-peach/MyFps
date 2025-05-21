@@ -11,7 +11,7 @@ namespace MySample
         public GameObject Arrow;
 
         //플레이어 오브젝트
-        private GameObject playerObject;
+        public GameObject playerObject;
 
         //시나리오 대사 처리
         public TextMeshProUGUI SequenceText;
@@ -24,11 +24,14 @@ namespace MySample
         #region Unity Event Method
         private void OnTriggerEnter(Collider other)
         {
-            GetComponent<BoxCollider>().enabled = false;
-
-            playerObject = other.gameObject;
-            Debug.Log($"other: {other.name}");
-            StartCoroutine(SequencePlayer());
+            //플레이어 체크
+            if (other.tag == "Player")
+            {
+                //트리거 해제
+                GetComponent<BoxCollider>().enabled = false;
+                StartCoroutine(SequencePlayer());
+            }
+            
         }
         #endregion
 
