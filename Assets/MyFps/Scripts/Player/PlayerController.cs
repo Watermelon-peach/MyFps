@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +29,22 @@ namespace MyFps
 
         //점프 높이
         [SerializeField] float jumpHeight = 1f;
+
+        //체력
+        private float currentHealth;
+        [SerializeField]
+        private float maxHealth = 20;
+
+        private bool isDeath = false;
+
+        //대미지 효과
+        public GameObject damageFlash;
+        public AudioSource[] hurtSfxs;
+
+        //죽음 처리
+        public SceneFader fader;
+        [SerializeField]
+        private string sceneToLoad = "GameOver";
         #endregion
 
         #region Unity Event Method
@@ -35,6 +52,9 @@ namespace MyFps
         {
             //참조
             controller = GetComponent<CharacterController>();
+
+            //초기화
+            currentHealth = maxHealth;
         }
 
         private void Update()
@@ -80,6 +100,41 @@ namespace MyFps
         bool GroundCheck()
         {
             return Physics.CheckSphere(groundCheck.position, checkRange, groundMask);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            currentHealth -= damage;
+
+            Debug.Log($"Player Current Health: {currentHealth}");
+            //대미지 연출 (Sfx, Vfx)
+            StartCoroutine(DamageEffect());
+
+            if (currentHealth <= 0f && isDeath == false)
+            {
+                Die();
+            }
+        }
+
+        //화면 전체 빨간색 플래시 효과
+        //대미지 사운드 3개중 1 랜덤 발생
+        IEnumerator DamageEffect()
+        {
+            damageFlash.SetActive(true);
+
+            int index = Random.Range(0, 3);
+            hurtSfxs[index].Play();
+
+            yield return new WaitForSeconds(1f);
+            damageFlash.SetActive(false);
+        }
+
+        private void Die()
+        {
+            isDeath = true;
+
+            //죽음처리
+            fader.FadeTo(sceneToLoad);
         }
         #endregion
     }

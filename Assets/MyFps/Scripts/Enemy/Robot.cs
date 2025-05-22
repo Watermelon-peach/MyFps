@@ -37,9 +37,18 @@ namespace MyFps
         private float moveSpeed = 5f;
 
         //공격
+        [SerializeField]
         private float attackRange = 1.5f;
-        private float attackTimer = 2f;
+
+        //공격력
+        [SerializeField]
+        private float attackDamage = 5f;
+
+        //공격 타이머
+        private float attackTime = 2f;
         private float timeCount = 0f;
+        
+
         //애니메이션 파라미터
         private string enemyState = "EnemyState";
 
@@ -62,6 +71,7 @@ namespace MyFps
             Vector3 dir = target - transform.position;
             float distance = Vector3.Distance(transform.position, target);
 
+            //공격 범위 체크
             if (distance <= attackRange)
             {
                 ChangeState(RobotState.R_Attack);
@@ -70,6 +80,7 @@ namespace MyFps
             {
                 ChangeState(RobotState.R_Walk);
             }
+
             //상태구현
             switch (robotState)
             {
@@ -82,7 +93,9 @@ namespace MyFps
                     break;
 
                 case RobotState.R_Attack:
-                    
+                    //2초마다 대미지를 5씩 준다
+                    //OnAttackTimer();
+
                     break;
 
                 case RobotState.R_Death:
@@ -139,6 +152,27 @@ namespace MyFps
             ChangeState(RobotState.R_Death);
 
             //보상 처리..
+        }
+
+        private void OnAttackTimer()
+        {
+            timeCount += Time.deltaTime;
+            if (timeCount >= attackTime)
+            {
+                //타이머 내용
+                Attack();
+                timeCount = 0;
+            }
+        }
+
+        public void Attack()
+        {
+            Debug.Log($"플레이어에게 대미지 {attackDamage}를 준다");
+            PlayerController target = player.GetComponent<PlayerController>();
+            if (target)
+            {
+                target.TakeDamage(attackDamage);
+            }
         }
         #endregion
     }
