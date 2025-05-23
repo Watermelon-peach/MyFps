@@ -11,6 +11,15 @@ namespace MyFps
         //참조
         private Animator animator;
         public GameObject muzzleEffect;
+
+        //총구발사 이펙트
+        public ParticleSystem muzzleFlash;
+        //피격 이펙트 - 탄착지점에서 이펙트 효과 발생
+        public GameObject hitImpactPrefab;
+        //hit 충격 강도
+        [SerializeField]
+        private float impactForce = 10f;
+
         public AudioSource fireSound;
         public Transform firePoint;
 
@@ -20,6 +29,9 @@ namespace MyFps
         private float fireDelay = 1f;
         private float timeCount = 0f;
 
+        private float maxDistance = 200f;
+        [SerializeField]
+        private float attackDamage = 5f;
         #endregion
 
         #region Unity Event Method
@@ -49,7 +61,7 @@ namespace MyFps
         private void OnDrawGizmosSelected()
         {
             RaycastHit hit;
-            float maxDistance = 200f;
+            
             bool isHit = Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit);
 
             Gizmos.color = Color.red;
@@ -70,21 +82,66 @@ namespace MyFps
         {
             if(context.started && !isFired) //keydown, buttondown
             {
-                StartCoroutine(Fire());
+                StartCoroutine(Shoot());
             }
         }
 
-        IEnumerator Fire()
+        //슛
+        IEnumerator Shoot()
         {
             isFired = true;
+
+            //레이를 쏴서 200 안에 적(로봇)이 있으면 적에게 대미지를 준다
+            RaycastHit hit;
+            bool isHit = Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit);
+            if (isHit)
+            {
+                Debug.Log($"{hit.transform.name}에게 {attackDamage} 대미지를 준다");
+                /*Robot robot = hit.transform.GetComponent<Robot>();
+                if(robot)
+                {
+                    robot.TakeDamage(attackDamage);
+                }*/
+                //hit.point
+                if (hitImpactPrefab)
+                {
+                    GameObject effectGo = Instantiate(hitImpactPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                    Destroy(effectGo, 2f);
+                }
+
+                if (hit.rigidbody)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);
+                }
+                    
+                IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                
+                    damageable.TakeDamage(attackDamage);
+                }
+            }
+
             //애니메이션 플레이
             animator.SetTrigger("Fire");
+            
+            //연출 Vfx,Sfx
             //발사 이펙트 플래시 활성화
             muzzleEffect.SetActive(true);
+            if (muzzleFlash)
+            {
+                muzzleFlash.Play();
+            }
             //발사 사운드 플레이
             fireSound.Play();
+
             //0.5초 딜레이
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
+
+            if (muzzleFlash)
+            {
+                muzzleFlash.Stop();
+            }
             //발사 이펙트 플래시 비활성화
             muzzleEffect.SetActive(false);
         }

@@ -12,7 +12,7 @@ namespace MyFps
         R_Death
     }
 
-    //enemy(로봇)을 제어하는 클래스
+    //enemy(로봇)의 상태 제어하는 클래스
     public class Robot : MonoBehaviour
     {
         #region Variables
@@ -20,17 +20,12 @@ namespace MyFps
         private Animator animator;
         public Transform player;    //target
 
+        private RobotHealth robotHealth;
+
         //로봇의 현재 상태
         private RobotState robotState;
         //로봇의 이전 상태
         private RobotState beforeState;
-
-        //체력
-        private float currentHealth;
-        [SerializeField]
-        private float maxHealth = 20;
-
-        private bool isDeath = false;
 
         //이동
         [SerializeField]
@@ -55,17 +50,17 @@ namespace MyFps
         #endregion
 
         #region Unity Event Method
-        private void Start()
+        private void Awake()
         {
             //참조
             animator = GetComponent<Animator>();
-
-            //초기화
-            currentHealth = maxHealth;
+            robotHealth = GetComponent<RobotHealth>();
         }
 
         private void Update()
         {
+            if (robotHealth.IsDeath)
+                return;
             //이동
             Vector3 target = new Vector3(player.position.x, 0f, player.position.z);
             Vector3 dir = target - transform.position;
@@ -107,6 +102,8 @@ namespace MyFps
 
         private void OnEnable()
         {
+            //이벤트 함수 등록
+            robotHealth.OnDie += OnDie;
             //초기화
             ChangeState(RobotState.R_Idle);
         }
@@ -132,27 +129,7 @@ namespace MyFps
 
         }
 
-        public void TakeDamage(float damage)
-        {
-            currentHealth -= damage;
-
-            //대미지 연출 (Sfx, Vfx)
-
-            if (currentHealth <= 0f && isDeath == false)
-            {
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDeath = true;
-
-            //죽음 처리
-            ChangeState(RobotState.R_Death);
-
-            //보상 처리..
-        }
+        
 
         private void OnAttackTimer()
         {
@@ -168,11 +145,18 @@ namespace MyFps
         public void Attack()
         {
             Debug.Log($"플레이어에게 대미지 {attackDamage}를 준다");
-            PlayerController target = player.GetComponent<PlayerController>();
-            if (target)
+            IDamageable target = player.GetComponent<IDamageable>();
+            if (target != null)
             {
                 target.TakeDamage(attackDamage);
             }
+        }
+
+        //죽음시 호출되는 함수
+        private void OnDie()
+        {
+            ChangeState(RobotState.R_Death);
+            GetComponent<BoxCollider>().enabled = false;
         }
         #endregion
     }
