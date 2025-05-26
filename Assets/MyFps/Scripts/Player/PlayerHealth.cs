@@ -37,7 +37,7 @@ namespace MyFps
         {
             currentHealth -= damage;
 
-            Debug.Log($"Player Current Health: {currentHealth}");
+            //Debug.Log($"Player Current Health: {currentHealth}");
             //대미지 연출 (Sfx, Vfx)
             StartCoroutine(DamageEffect());
 

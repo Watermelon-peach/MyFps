@@ -9,8 +9,9 @@ namespace MyFps
         #region Variables
         //참조
         private CharacterController controller;
+        public PistolShoot pistolShoot;
 
-        //입력
+        //입력 - 이동
         private Vector2 inputMove;
 
         //이동
@@ -86,7 +87,17 @@ namespace MyFps
             return Physics.CheckSphere(groundCheck.position, checkRange, groundMask);
         }
 
-        
+        public void OnFire(InputAction.CallbackContext context)
+        {
+            //무장 체크
+            if (PlayerDataManager.Instance.Weapon == WeaponType.None)
+                return;
+
+            if (context.started) //keydown, buttondown
+            {
+                pistolShoot.Fire();
+            }
+        }
         #endregion
     }
 

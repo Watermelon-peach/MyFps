@@ -6,6 +6,9 @@ namespace MyFps
     public class CJumpScareTrigger : MonoBehaviour
     {
         #region Variables
+        //기본 bgm
+        public AudioSource bgm01;
+
         //문 열리는 애니메이션
         public Animator animator;
         //문 열리는 사운드
@@ -37,6 +40,9 @@ namespace MyFps
         //트리거 연출 구현
         IEnumerator SequencePlayer()
         {
+            //기본 bgm 중지
+            bgm01.Stop();
+
             //문이 열린다
             animator.SetBool(isOpen, true);
 

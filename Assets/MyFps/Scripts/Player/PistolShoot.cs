@@ -77,13 +77,13 @@ namespace MyFps
         #endregion
 
         #region Custom Method
-
-        public void OnFire(InputAction.CallbackContext context)
+        public void Fire()
         {
-            if(context.started && !isFired) //keydown, buttondown
-            {
+            if (isFired)
+                return;
+
+            if (PlayerDataManager.Instance.UseAmmo(1))
                 StartCoroutine(Shoot());
-            }
         }
 
         //슛
@@ -96,7 +96,7 @@ namespace MyFps
             bool isHit = Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit);
             if (isHit)
             {
-                Debug.Log($"{hit.transform.name}에게 {attackDamage} 대미지를 준다");
+                //Debug.Log($"{hit.transform.name}에게 {attackDamage} 대미지를 준다");
                 /*Robot robot = hit.transform.GetComponent<Robot>();
                 if(robot)
                 {

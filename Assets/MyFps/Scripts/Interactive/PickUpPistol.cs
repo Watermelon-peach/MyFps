@@ -10,22 +10,27 @@ namespace MyFps
         //인터랙티브 액션 연출
         public GameObject realPistol;
         public GameObject theArrow;
+        public GameObject ammoBox;
+        public GameObject secondTrigger;
+
+        public GameObject ammoUI;
         #endregion
 
-        #region Unity Event Method
-        private void Update()
-        {
-            //문과 플레이어와의 거리
-            theDistance = PlayerCasting.distanceFromTarget;
-        }
-        #endregion
 
         protected override void DoAction()
-        {
+        {  
+            //무기 획득, 충돌체 제거
             realPistol.SetActive(true);
-            theArrow.SetActive(false);
 
-            gameObject.SetActive(false);
+            theArrow.SetActive(false);
+            ammoUI.SetActive(true);
+
+            secondTrigger.SetActive(true);
+            ammoBox.SetActive(true);
+            //무기 데이터
+            PlayerDataManager.Instance.Weapon = WeaponType.Pistol;
+
+            gameObject.SetActive(false);    //fake pistol 및 충돌체 제거
         }
     }
 }

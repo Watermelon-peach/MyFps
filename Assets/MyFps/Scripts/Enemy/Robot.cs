@@ -1,4 +1,3 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 namespace MyFps
@@ -47,6 +46,9 @@ namespace MyFps
         //애니메이션 파라미터
         private string enemyState = "EnemyState";
 
+        //배경음 전환
+        public AudioSource jumpScare;
+        public AudioSource bgm01;
         #endregion
 
         #region Unity Event Method
@@ -67,6 +69,7 @@ namespace MyFps
             float distance = Vector3.Distance(transform.position, target);
 
             //공격 범위 체크
+
             if (distance <= attackRange)
             {
                 ChangeState(RobotState.R_Attack);
@@ -156,6 +159,11 @@ namespace MyFps
         private void OnDie()
         {
             ChangeState(RobotState.R_Death);
+
+            //배경음 변경
+            jumpScare.Stop();
+            bgm01.Play();
+
             GetComponent<BoxCollider>().enabled = false;
         }
         #endregion

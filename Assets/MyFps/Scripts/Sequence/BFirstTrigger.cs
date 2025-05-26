@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MySample
 {
@@ -15,6 +16,7 @@ namespace MySample
 
         //시나리오 대사 처리
         public TextMeshProUGUI SequenceText;
+        public AudioSource line03;
 
         [SerializeField] private string sequence01 = "Looks like a weapon on that table";
         [SerializeField] private float SequenceDelay = 1f;
@@ -39,10 +41,13 @@ namespace MySample
         IEnumerator SequencePlayer()
         {
             //플레이 캐릭터 비활성화 (플레이 멈춤)
-            playerObject.SetActive(false);
+            //playerObject.SetActive(false);
+            PlayerInput input = playerObject.GetComponent<PlayerInput>();
+            input.enabled = false;
 
             //대사 출력 : "Looks like a weapon on that table"
             SequenceText.text = sequence01;
+            line03.Play();
 
             //1초 딜레이
             yield return new WaitForSeconds(SequenceDelay);
@@ -58,6 +63,7 @@ namespace MySample
 
             //시나리오 텍스트 사라짐
             SequenceText.text = "";
+            input.enabled = true;
         }
         #endregion
     }
