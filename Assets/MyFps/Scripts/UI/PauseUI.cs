@@ -39,6 +39,12 @@ namespace MyFps
         {
             Debug.Log("GoTo Menu");
         }
+
+        //게임 재개
+        public void ContinueButton()
+        {
+            pauseUI.SetActive(false);
+        }
         #endregion
     }
 
