@@ -19,6 +19,9 @@ namespace MyFps
 
         [SerializeField]
         protected string action = "Do Interactive Action";
+
+        [SerializeField]
+        protected bool uninteractive = false;
         #endregion
 
         #region Unity Event Method
@@ -30,6 +33,9 @@ namespace MyFps
 
         private void OnMouseOver()
         {
+            if (uninteractive)
+                return;
+
             extraCross.SetActive(true);
             if (theDistance <= 2f)
             {

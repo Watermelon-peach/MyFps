@@ -24,8 +24,12 @@ namespace MyFps
             //문 열고, 충돌체 제거
             animator.SetBool(paramIsOpen, true);        //문 여는 애니메이션 연출
 
-            //문 여는 소리
-            audioSource.Play();
+            if (audioSource)
+            {
+                //문 여는 소리
+                audioSource.Play();
+            }
+            
 
             GetComponent<BoxCollider>().enabled = false;    //문 충돌체 제거
         }
