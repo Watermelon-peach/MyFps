@@ -10576,6 +10576,7 @@ MonoBehaviour:
   actionText: {fileID: 2024336800}
   extraCross: {fileID: 1015915921}
   action: Open the Door
+  uninteractive: 0
   animator: {fileID: 709454326}
   audioSource: {fileID: 217929692}
   bgm01: {fileID: 1159251341}
@@ -19078,6 +19079,7 @@ MonoBehaviour:
   actionText: {fileID: 2024336800}
   extraCross: {fileID: 1015915921}
   action: Pick up the pistol
+  uninteractive: 0
   realPistol: {fileID: 2067011019586220341}
   theArrow: {fileID: 2055352111}
   ammoBox: {fileID: 1089306816}
@@ -20138,6 +20140,7 @@ MonoBehaviour:
   actionText: {fileID: 2024336800}
   extraCross: {fileID: 1015915921}
   action: Open The Door
+  uninteractive: 0
   animator: {fileID: 3048773266399337660}
   audioSource: {fileID: 927701168}
 --- !u!1 &1685412331
