@@ -49,7 +49,7 @@ namespace MyFps
             //ToDo : Cheating
             //메인 2번씬 설정
             PlayerDataManager.Instance.Weapon = WeaponType.Pistol;
-            PlayerDataManager.Instance.AddAmmo(5);
+            //PlayerDataManager.Instance.AddAmmo(5);
 
             //배경음 플레이
             AudioManager.Instance.PlayBgm("Bgm02");

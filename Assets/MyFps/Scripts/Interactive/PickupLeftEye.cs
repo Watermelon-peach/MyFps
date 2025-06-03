@@ -23,6 +23,10 @@ namespace MyFps
         public TextMeshProUGUI sequenceText;
         [SerializeField]
         private string sequence = "You have obtained a puzzle item";
+
+        //숨겨진 벽
+        public GameObject fakeWall;
+        public GameObject hiddenWall;
         #endregion
 
         #region Custom Method
@@ -36,6 +40,12 @@ namespace MyFps
             //Debug.Log("퍼즐 아이템 (LeftEye) 획득");
             PlayerDataManager.Instance.AddPuzzleKey(puzzleKey);
 
+            //숨겨진 벽 체크
+            if (PlayerDataManager.Instance.HasPuzzleKey(PuzzleKey.LEFTEYE_KEY)&& PlayerDataManager.Instance.HasPuzzleKey(PuzzleKey.RIGHTEYE_KEY))
+            {
+                fakeWall.SetActive(false);
+                hiddenWall.SetActive(true);
+            }
             //인터랙티브 기능 제거
             uninteractive = true;
 
