@@ -51,7 +51,10 @@ namespace MyFps
         //대미지 사운드 3개중 1 랜덤 발생
         IEnumerator DamageEffect()
         {
+            //vfx
             damageFlash.SetActive(true);
+            //카메라 흔들기
+            CinemachineCameraShake.Instance.Shake(2f, 1f, 0.75f);
 
             int index = Random.Range(0, 3);
             hurtSfxs[index].Play();
