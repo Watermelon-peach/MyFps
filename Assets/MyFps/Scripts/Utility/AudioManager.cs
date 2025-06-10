@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace MyFps
 {
@@ -12,12 +12,18 @@ namespace MyFps
 
         //배경음 이름
         private string bgmSound = "";
+
+        //Audio Mixer
+        public AudioMixer audioMixer;
         #endregion
 
         #region Unity Event Method
         protected override void Awake()
         {
             base.Awake();
+
+            //AudioMixer에서 오디오 그룹 가져오기
+            AudioMixerGroup[] audioMixerGroups = audioMixer.FindMatchingGroups("Master");
 
             //사운드 데이터 셋팅
             foreach (var s in sounds)
@@ -32,6 +38,15 @@ namespace MyFps
                 s.source.loop = s.loop;
 
                 s.source.playOnAwake = false;
+
+                if (s.source.loop) //BGM
+                {
+                    s.source.outputAudioMixerGroup = audioMixerGroups[1];
+                }
+                else //SFX
+                {
+                    s.source.outputAudioMixerGroup = audioMixerGroups[2];
+                }
             }
         }
         #endregion
