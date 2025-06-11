@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fader: {fileID: 889310633}
-  sceneToLoad: MainScene01
+  sceneToLoad: MainMenu
 --- !u!4 &1166150743
 Transform:
   m_ObjectHideFlags: 0

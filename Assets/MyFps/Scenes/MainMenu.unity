@@ -2099,7 +2099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &575794563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10202,6 +10202,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654036410}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1678267411
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3581292885489113221, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 478.7214
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1109.8995
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 651.5647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980545150785027416, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 935fa9bcf4b676041b718474cb0e8395, type: 3}
 --- !u!1 &1688003661
 GameObject:
   m_ObjectHideFlags: 0
@@ -11352,10 +11409,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fader: {fileID: 1380660125}
-  sceneToLoad: MainScene01
+  sceneToLoad: Intro
   mainMenuUI: {fileID: 1572877513}
   optionsUI: {fileID: 1230790724}
   creditCanvas: {fileID: 2008170633}
+  loadGameButton: {fileID: 575794562}
   audioMixer: {fileID: 24100000, guid: d3d3466633c24bb428ee41b296541282, type: 2}
   bgmSlider: {fileID: 2056449182}
   sfxSlider: {fileID: 217526808}
@@ -11855,11 +11913,12 @@ SceneRoots:
   - {fileID: 2101899049}
   - {fileID: 1163273951}
   - {fileID: 2072498866}
+  - {fileID: 2919200671612733987}
   - {fileID: 1380660124}
   - {fileID: 1505815757}
   - {fileID: 1368215878}
   - {fileID: 206615999}
   - {fileID: 436411811}
-  - {fileID: 2919200671612733987}
   - {fileID: 899878012}
   - {fileID: 2008170637}
+  - {fileID: 1678267411}

@@ -78,10 +78,41 @@ namespace MyFps
             }
         }
 
+        //FadeOut 효과 후 매개변수로 받은 씬 빌드번호로 LoadScene 이동
+        IEnumerator FadeOut(int sceneNumber)
+        {
+            //FadeOut 효과 후
+            float t = 0f;
+
+            while (t <= 1)
+            {
+                t += Time.deltaTime;
+                float a = curve.Evaluate(t);
+                img.color = new Color(0f, 0f, 0f, a);
+
+                yield return 0f;
+            }
+
+            //씬 이동
+            if (sceneNumber >= 0)
+            {
+                SceneManager.LoadScene(sceneNumber);
+            }
+        }
+
         //다른 씬으로 이동 시 FadeOut 효과 후 LoadScene으로 이동
         public void FadeTo(string sceneName = "")
         {
             StartCoroutine(FadeOut(sceneName));
+        }
+
+        //씬 번호를 매개변수로 받음
+        public void FadeTo(int sceneNumber = -1)
+        {
+            if (true)
+            {
+                StartCoroutine(FadeOut(sceneNumber));
+            }
         }
     }
 

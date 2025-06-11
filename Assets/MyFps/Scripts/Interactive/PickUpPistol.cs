@@ -12,6 +12,7 @@ namespace MyFps
         public GameObject theArrow;
         public GameObject ammoBox;
         public GameObject secondTrigger;
+        public GameObject barrier;
 
         public GameObject ammoUI;
         #endregion
@@ -21,6 +22,8 @@ namespace MyFps
         {  
             //무기 획득, 충돌체 제거
             realPistol.SetActive(true);
+            //제거
+            barrier.SetActive(false);
 
             theArrow.SetActive(false);
             ammoUI.SetActive(true);

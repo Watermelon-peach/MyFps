@@ -26,12 +26,13 @@ namespace MyFps
         #region Custom Method
         public void Retry()
         {
-            fader.FadeTo(sceneToLoad);
+            int nowScene = PlayerDataManager.Instance.SceneNumber;
+            fader.FadeTo(nowScene);
         }
 
         public void Menu()
         {
-            Debug.Log("Goto Menu");
+            fader.FadeTo(sceneToLoad);
         }
         #endregion
     }
