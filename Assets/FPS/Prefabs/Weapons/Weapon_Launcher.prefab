@@ -146,6 +146,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRoot: {fileID: 5646165488041817916}
   switchWeaponSfx: {fileID: 8300000, guid: de2a71b02af182942825ef576b59c722, type: 3}
+  defaultCrosshair:
+    crosshairSprite: {fileID: 21300000, guid: 9c3070d84e6bccf47a40314eef8d9a11, type: 3}
+    crosshairSize: 100
+    crosshairColor: {r: 0.80882215, g: 1, b: 0, a: 1}
+  targetInSightCrosshair:
+    crosshairSprite: {fileID: 21300000, guid: 9c3070d84e6bccf47a40314eef8d9a11, type: 3}
+    crosshairSize: 100
+    crosshairColor: {r: 0.4475317, g: 1, b: 0, a: 1}
 --- !u!1 &2990922162098100101
 GameObject:
   m_ObjectHideFlags: 0
