@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
@@ -75,6 +76,14 @@ namespace Unity.FPS.Gameplay
         private Vector3 m_LastCharacterPosition;                    //이번 프레임의 캐릭터 최종위치
 
         private Vector3 m_WeaponBobLocalPosition;                   //이번 프레임에 흔들린 양의 최종 계산값
+
+        //반동 Recoil
+        [SerializeField] private float recoilSharpness = 50f;           //반동 연출 뒤로 밀리는 속도
+        [SerializeField] private float maxRecoilDistance = 0.5f;        //반동시 뒤로 밀리는 최대거리
+        [SerializeField] private float recoilRepositionSharpness = 10f; //반동 연출 회복 속도
+        private Vector3 accumulateRecoil;                               //반동 힘에 의한 이동 Vector3 값
+
+        private Vector3 weaponRecoilLocalPosition;                      //반동에 의해 이동한 최종 계산값
         #endregion
 
         #region Property
@@ -116,9 +125,31 @@ namespace Unity.FPS.Gameplay
 
         private void Update()
         {
-            IsAiming = inputHandler.GetAimInputHeld();
+            
             //현재 액티브 무기 가져오기
             WeaponController activeWeapon = GetActiveWeapon();
+
+            if (weaponSwitchState == WeaponSwitchState.Up)
+            {
+                //키인풋 받아서 조준
+                IsAiming = inputHandler.GetAimInputHeld();
+
+                //발사
+                bool isFire = activeWeapon.HandleShootInput(
+                    inputHandler.GetFireInputDown(),
+                    inputHandler.GetFireInputHeld(),
+                    inputHandler.GetFireInputReleased());
+
+                //발사 성공시 총이 뒤로 밀린다
+                if (isFire)
+                {
+                    accumulateRecoil += Vector3.back * activeWeapon.recoilForce;
+                    accumulateRecoil = Vector3.ClampMagnitude(accumulateRecoil, maxRecoilDistance);
+                }
+            }
+
+            //발사 처리
+            
             //키 인풋을 받아 무기 교체
             if (weaponSwitchState == WeaponSwitchState.Up || weaponSwitchState == WeaponSwitchState.Down)
             {
@@ -154,9 +185,10 @@ namespace Unity.FPS.Gameplay
             UpdateWeaponBob();
             //무기 교체 연출
             UpdateWeaponState();
-
+            //
+            UpdateWeaponRecoil();
             //무기의 최종 위치 적용
-            weaponParentSocket.localPosition = weaponMainLocalPosition + m_WeaponBobLocalPosition;
+            weaponParentSocket.localPosition = weaponMainLocalPosition + m_WeaponBobLocalPosition + weaponRecoilLocalPosition;
         }
         #endregion
 
@@ -167,6 +199,7 @@ namespace Unity.FPS.Gameplay
             playerCharacterController.PlayerCamera.fieldOfView = fov;
             weaponCamera.fieldOfView = fov * weaponFovMultiplier;
         }
+
 
         //조준 연출에 따른 무기 위치 변경
         private void UpdateWeaponAiming()
@@ -192,6 +225,22 @@ namespace Unity.FPS.Gameplay
                 //fov 조정
                 aimingFov = Mathf.Lerp(playerCharacterController.PlayerCamera.fieldOfView, defaultFov, aimingAnimationSpeed * Time.deltaTime);
                 SetFov(aimingFov);
+            }
+        }
+
+        //반동 연출에 따른 무기의 뒤로 밀린 양 구하기
+        private void UpdateWeaponRecoil()
+        {
+            //accumulateRecoil : 힘에 의해 뒤로 밀린 양
+            //weaponRecoilLocalPosition: 연출을 위한 뒤로 밀린 양
+            if (weaponRecoilLocalPosition.z >= accumulateRecoil.z * 0.99f)
+            {
+                weaponRecoilLocalPosition = Vector3.Lerp(weaponRecoilLocalPosition, accumulateRecoil, recoilSharpness * Time.deltaTime);
+            }
+            else //원래 위치로 회복하는 연출
+            {
+                weaponRecoilLocalPosition = Vector3.Lerp(weaponRecoilLocalPosition, Vector3.zero, recoilRepositionSharpness * Time.deltaTime);
+                accumulateRecoil = weaponRecoilLocalPosition;
             }
         }
 
